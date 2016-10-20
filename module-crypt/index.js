@@ -1,5 +1,6 @@
 var NodeRSA = require('node-rsa');
 var fs = require('fs');
+var hash = "fad87b8e06f1c8f6c181b9b6af8feee3925d92cf053e291530d82ef4d3890bb8";
 
 function Crypto(keyPath) {
 	this.rsa = new NodeRSA(fs.readFileSync(keyPath, {encoding: 'utf8'}));
@@ -18,7 +19,7 @@ function authValid(str) {
 		str = crypto.decrypt(str);
 		var time = parseInt(str.substr(0, 13));
 		var pass = str.substr(13);
-		if (Date.now() - time < 10000 && pass === "fad87b8e06f1c8f6c181b9b6af8feee3925d92cf053e291530d82ef4d3890bb8") {
+		if (Date.now() - time < 10000 && pass === hash) {
 			return true;
 		}
 	} catch (e) {
@@ -30,7 +31,7 @@ function authValid(str) {
 
 function generateAuth() {
 	try {
-		return crypto.encrypt((Date.now().toString()) + "fad87b8e06f1c8f6c181b9b6af8feee3925d92cf053e291530d82ef4d3890bb8");
+		return crypto.encrypt((Date.now().toString()) + hash);
 	} catch (e) {
 		return "";
 	}
