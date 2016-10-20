@@ -2,7 +2,7 @@ var childProcess = require('child_process');
 var request = require('request');
 var async = require('async');
 var fs = require('fs');
-var crypt = require('module-crypt');
+var crypt = require('../module-crypt/index.js');
 
 function provision() {
 	request({
@@ -16,5 +16,6 @@ function provision() {
 		console.log(info);
 		fs.writeFileSync('/etc/machine-info', 'PRETTY_HOSTNAME'+info.name);
 		childProcess.exec('sudo service bluetooth restart');
+		console.log("Provisioning complete");
 	});
 }
