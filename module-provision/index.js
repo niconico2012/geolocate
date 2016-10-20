@@ -14,7 +14,7 @@ function provision() {
 	}, function(err, response, body) {
 		var info = JSON.parse(body);
 		console.log(info);
-		fs.writeFileSync('/etc/machine-info', 'PRETTY_HOSTNAME'+info.name);
+		fs.writeFileSync('/etc/machine-info', 'PRETTY_HOSTNAME=GLPI-'+info.name);
 		childProcess.exec('sudo service bluetooth restart');
 		console.log("Provisioning complete");
 	});
