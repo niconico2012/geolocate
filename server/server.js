@@ -8,7 +8,11 @@ var app = express();
 var PORT = 4000;
 
 app.use(bodyparser.urlencoded());
+app.get('/', ( req, res ) => {
+    res.json('sup');
+});
 app.post('/provision', ( req, res ) => {
+    console.log('/provision received')
     crypto.randomBytes(5, (err, buf) => {
         if (err) throw err;
         var stmt = db.prepare("INSERT INTO devices(name) VALUES(?)");
@@ -18,6 +22,7 @@ app.post('/provision', ( req, res ) => {
 });
 
 app.post('/report', ( req, res )=> {
+    console.log('/report received')
     var name = req.body.name || null;
     var location = req.body.location || null;
 
@@ -35,6 +40,7 @@ app.post('/report', ( req, res )=> {
 });
 
 app.get('/find/:name', ( req, res ) => {
+    console.log('/find received')
     var findName= req.params.name || null;
     db.all("SELECT * FROM devices WHERE name=?", findName, (err, rows) => {
         if (err !== null || rows.length !== 1) {
