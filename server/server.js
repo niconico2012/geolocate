@@ -1,27 +1,17 @@
-// import express from 'express';
-// import path from 'path';
-// import http from 'http';
-
-const express = require('express');
-const crypto = require('crypto');
-const sqlite = require('sqlite3').verbose();
-const bodyparser = require('body-parser');
-let db = new sqlite.Database('./data.db');
-
-
-const app = express();
-const PORT = 3000;
+'use strict';
+var express = require('express');
+var crypto = require('crypto');
+var sqlite = require('sqlite3').verbose();
+var bodyparser = require('body-parser');
+var db = new sqlite.Database('./data.db');
+var app = express();
+var PORT = 4000;
 
 app.use(bodyparser.urlencoded());
-
-app.get('/', ( req, res ) => {
-    res.sendFile(path.join(__dirname, 'hello.html'));
-});
-
 app.post('/provision', ( req, res ) => {
     crypto.randomBytes(5, (err, buf) => {
         if (err) throw err;
-        let stmt = db.prepare("INSERT INTO devices(name) VALUES(?)");
+        var stmt = db.prepare("INSERT INTO devices(name) VALUES(?)");
         stmt.run(buf.toString('hex'));
         res.json({name: buf.toString('hex')});
     })
@@ -59,15 +49,5 @@ app.get('/find/:name', ( req, res ) => {
 
 app.listen(PORT, () => {
     console.log("Started server at port", PORT);
-
-    // Connect to mysql database
-    // connection.connect();
-
-    // // Test mysql connection
-    // connection.query('SELECT * FROM test', ( err, rows, fields ) => {
-    // 	if (err) throw err;
-
-    // 	console.log(rows[0]);
-    // });
 });
 
