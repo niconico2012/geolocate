@@ -5,7 +5,7 @@ var sqlite = require('sqlite3').verbose();
 var bodyparser = require('body-parser');
 var db = new sqlite.Database('./data.db');
 var app = express();
-var PORT = 4000;
+var PORT = process.env.PORT || 4000;
 
 app.use(bodyparser.urlencoded());
 app.get('/', ( req, res ) => {
