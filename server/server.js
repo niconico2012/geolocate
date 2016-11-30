@@ -13,6 +13,8 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded());
 
 app.post('/provision', ( req, res ) => {
+    console.log('/provision received')
+
     crypto.randomBytes(5, (err, buf) => {
         if (err) throw err;
         var stmt = db.prepare("INSERT INTO devices(name) VALUES(?)");
@@ -22,6 +24,7 @@ app.post('/provision', ( req, res ) => {
 });
 
 app.post('/report', ( req, res )=> {
+    console.log('/report received')
     var name = req.body.name || null;
     var location = req.body.location || null;
 	location = location.latitude + ' ' + location.longitude;
